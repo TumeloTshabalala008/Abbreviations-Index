@@ -1,0 +1,30 @@
+/* Main body styling */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Customize headings */
+  h2 {
+    font-weight: 700;
+  }
+  
+  /* Navbar brand text white override (in case you need it) */
+  .navbar-brand {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  
+  /* Table styles */
+  .table th, .table td {
+    vertical-align: middle;
+  }
+  
+  /* Make table text smaller on mobile */
+  @media (max-width: 576px) {
+    .table th, .table td {
+      font-size: 14px;
+      padding: 0.5rem;
+    }
+  }
+  

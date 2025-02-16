@@ -1,0 +1,7 @@
+.venv/       # Ignore the entire virtual environment folder
+__pycache__/ # Ignore Python cache files
+*.pyc        # Ignore compiled Python files
+.DS_Store    # Ignore macOS Finder store files (if you're on macOS)
+instance/    # Ignore Flask's instance folder (if you're using it)
+*.env        # Ignore environment variables file (very important!)
+# Add any other files or folders you want to exclude

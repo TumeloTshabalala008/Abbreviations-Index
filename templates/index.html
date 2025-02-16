@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Page Heading -->
+<h2 class="my-3" style="color: #002d72;">Acronyms List</h2>
+
+<!-- Search Form (Optional) -->
+<form class="d-flex mb-3" method="get">
+  <input
+    class="form-control me-2"
+    type="search"
+    placeholder="Search..."
+    aria-label="Search"
+    name="search"
+    value="{{ request.args.get('search') }}"
+  />
+  <button class="btn btn-outline-primary" type="submit">
+    Search
+  </button>
+</form>
+
+<!-- "Create New" Button with plus icon -->
+<div class="mb-3">
+  <a href="{{ url_for('create') }}" class="btn btn-primary">
+    <i class="bi bi-plus-lg"></i> Create
+  </a>
+</div>
+
+<!-- Table of Acronyms -->
+<table class="table table-striped table-bordered align-middle">
+  <thead class="table-primary">
+    <tr class="text-center">
+      <th>Abbreviation</th>
+      <th>Full Form</th>
+      <th>Description</th>
+      <th style="width: 150px;">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for abbreviation in abbreviations %}
+    <tr class="text-center">
+      <td>{{ abbreviation.abbreviation }}</td>
+      <td>{{ abbreviation.full_form }}</td>
+      <td>{{ abbreviation.description }}</td>
+      <td>
+        <a
+          href="{{ url_for('update', id=abbreviation.id) }}"
+          class="btn btn-warning btn-sm"
+        >
+          Edit
+        </a>
+        <a
+          href="{{ url_for('delete', id=abbreviation.id) }}"
+          class="btn btn-danger btn-sm"
+          onclick="return confirm('Are you sure you want to delete this item?');"
+        >
+          Delete
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

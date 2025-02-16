@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="my-3" style="color: #002d72;">Create New Acronym</h2>
+
+<form method="POST">
+  {{ form.hidden_tag() }}
+  <div class="mb-3">
+    {{ form.abbreviation.label(class="form-label") }}
+    {{ form.abbreviation(class="form-control") }}
+  </div>
+  <div class="mb-3">
+    {{ form.full_form.label(class="form-label") }}
+    {{ form.full_form(class="form-control") }}
+  </div>
+  <div class="mb-3">
+    {{ form.description.label(class="form-label") }}
+    {{ form.description(class="form-control") }}
+  </div>
+  <button type="submit" class="btn btn-primary">
+    <i class="bi bi-plus-lg"></i> Save
+  </button>
+</form>
+{% endblock %}
