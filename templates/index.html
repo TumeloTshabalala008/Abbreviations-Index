@@ -2,25 +2,20 @@
 {% block content %}
 
 <!-- Page Heading -->
-<h2 class="my-3" style="color: #002d72;">Acronyms List</h2>
+<h2 class="my-3" style="color: #002d72;">Standard Lesotho Bank Acronyms</h2>
 
-<!-- Search Form (Optional) -->
-<form class="d-flex mb-3" method="get">
-  <input
-    class="form-control me-2"
-    type="search"
-    placeholder="Search..."
-    aria-label="Search"
-    name="search"
-    value="{{ request.args.get('search') }}"
-  />
-  <button class="btn btn-outline-primary" type="submit">
-    Search
-  </button>
-</form>
-
-<!-- "Create New" Button with plus icon -->
+<!-- Search Input (Live Search) -->
 <div class="mb-3">
+  <input 
+    type="text" 
+    id="searchInput" 
+    class="form-control" 
+    placeholder="Search Acronyms..."
+  />
+</div>
+
+<!-- "Create New" Button with Plus Icon -->
+<div class="mb-3 text-end">
   <a href="{{ url_for('create') }}" class="btn btn-primary">
     <i class="bi bi-plus-lg"></i> Create
   </a>
@@ -36,30 +31,64 @@
       <th style="width: 150px;">Actions</th>
     </tr>
   </thead>
-  <tbody>
-    {% for abbreviation in abbreviations %}
+  <tbody id="acronymTable">
+    {% for acronym in acronyms %}
     <tr class="text-center">
-      <td>{{ abbreviation.abbreviation }}</td>
-      <td>{{ abbreviation.full_form }}</td>
-      <td>{{ abbreviation.description }}</td>
+      <td>{{ acronym.abbreviation }}</td>
+      <td>{{ acronym.full_form }}</td>
+      <td>{{ acronym.description }}</td>
       <td>
-        <a
-          href="{{ url_for('update', id=abbreviation.id) }}"
-          class="btn btn-warning btn-sm"
-        >
-          Edit
+        <a href="{{ url_for('update', id=acronym.id) }}" class="btn btn-warning btn-sm">
+          <i class="bi bi-pencil-square"></i> Edit
         </a>
-        <a
-          href="{{ url_for('delete', id=abbreviation.id) }}"
+        <a 
+          href="{{ url_for('delete', id=acronym.id) }}" 
           class="btn btn-danger btn-sm"
           onclick="return confirm('Are you sure you want to delete this item?');"
         >
-          Delete
+          <i class="bi bi-trash"></i> Delete
         </a>
       </td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
+
+<!-- JavaScript for Live Search -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    fetchAcronyms();
+  });
+
+  function fetchAcronyms(searchQuery = "") {
+    fetch(`/get_abbreviations?search=${searchQuery}`)
+      .then(response => response.json())
+      .then(data => {
+        let tableBody = document.getElementById("acronymTable");
+        tableBody.innerHTML = "";
+        data.forEach(item => {
+          let row = `<tr class="text-center">
+                      <td>${item.abbreviation}</td>
+                      <td>${item.full_form}</td>
+                      <td>${item.description}</td>
+                      <td>
+                        <a href="/update/${item.id}" class="btn btn-warning btn-sm">
+                          <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                        <a href="/delete/${item.id}" class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure you want to delete this item?');">
+                          <i class="bi bi-trash"></i> Delete
+                        </a>
+                      </td>
+                    </tr>`;
+          tableBody.innerHTML += row;
+        });
+      });
+  }
+
+  document.getElementById("searchInput").addEventListener("keyup", function () {
+    fetchAcronyms(this.value);
+  });
+</script>
 
 {% endblock %}
